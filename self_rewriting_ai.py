@@ -4,7 +4,7 @@ import re
 import random
 
 # Knowledge base (AI can adjust this)
-knowledge_score = 5  # AI rewrites this value as it learns
+knowledge_score = 6  # AI rewrites this value as it learns
 
 def environment_feedback(score):
     """Simulated environment feedback"""
