@@ -3,15 +3,13 @@
 import re
 import random
 
-# Knowledge base (what AI can "rewrite")
-knowledge_score = 5  # AI will adjust this value as it learns
+# Knowledge base (AI can adjust this)
+knowledge_score = 5  # AI rewrites this value as it learns
 
 def environment_feedback(score):
     """Simulated environment feedback"""
-    # Reward is higher if score is near 10, lower if far
     ideal = 10
     reward = max(0, 10 - abs(ideal - score))
-    # Add randomness to simulate environment variability
     reward += random.randint(-2, 2)
     reward = max(0, reward)
     return reward
@@ -22,7 +20,6 @@ def learn():
     reward = environment_feedback(knowledge_score)
     print(f"Current knowledge_score: {knowledge_score}, reward: {reward}")
 
-    # Simple learning rule
     if reward < 5:
         knowledge_score += 1
         print("AI increases knowledge_score")
