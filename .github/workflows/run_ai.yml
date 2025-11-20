@@ -1,0 +1,20 @@
+name: Run Safe Self-Rewriting AI
+
+on:
+  workflow_dispatch: {}  # can trigger manually
+  schedule:
+    - cron: '0 12 * * *'  # optional daily run at 12:00 UTC
+
+jobs:
+  run-ai:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run AI
+        run: python3 self_rewriting_ai.py
