@@ -8,25 +8,7 @@ on:
 jobs:
   run-ai:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Run AI
-        run: python3 self_rewriting_ai.py
-
-      - name: Commit AI changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add self_rewriting_ai.py
-          git commit -m "AI updated knowledge_score [skip ci]" || echo "No changes to commit"
-          git push origin HEAD
-          steps:
+   steps:
   - uses: actions/checkout@v4
     with:
       token: ${{ secrets.GITHUB_TOKEN }}
@@ -46,4 +28,6 @@ jobs:
       git add self_rewriting_ai.py
       git commit -m "AI updated knowledge_score [skip ci]" || echo "No changes to commit"
       git push origin HEAD
+
+
 
