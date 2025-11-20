@@ -1,33 +1,36 @@
 name: Run Safe Self-Rewriting AI
 
 on:
-  workflow_dispatch: {}  # Manual trigger
+  workflow_dispatch:
   schedule:
-    - cron: '0 12 * * *'  # Optional: run daily at 12:00 UTC
+    - cron: '0 12 * * *'
+
+permissions:
+  contents: write
 
 jobs:
   run-ai:
     runs-on: ubuntu-latest
-   steps:
-  - uses: actions/checkout@v4
-    with:
-      token: ${{ secrets.GITHUB_TOKEN }}
 
-  - name: Set up Python
-    uses: actions/setup-python@v4
-    with:
-      python-version: '3.x'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-  - name: Run AI
-    run: python3 self_rewriting_ai.py
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-  - name: Commit AI changes
-    run: |
-      git config user.name "github-actions[bot]"
-      git config user.email "github-actions[bot]@users.noreply.github.com"
-      git add self_rewriting_ai.py
-      git commit -m "AI updated knowledge_score [skip ci]" || echo "No changes to commit"
-      git push origin HEAD
+      - name: Run AI script
+        run: python3 self_rewriting_ai.py
 
-
-
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add self_rewriting_ai.py
+          git commit -m "AI updated knowledge_score [skip ci]" || echo "No changes to commit"
+          git push origin HEAD
