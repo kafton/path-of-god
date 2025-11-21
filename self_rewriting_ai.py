@@ -1,51 +1,151 @@
-# self_rewriting_ai.py
-# Safe educational AI that learns and rewrites itself
+#!/usr/bin/env python3
+import json
+import os
 import re
-import random
+from datetime import datetime
 
-# Knowledge base (AI can adjust this)
-knowledge_score = 6  # AI rewrites this value as it learns
+AI_FILE = "self_rewriting_ai.py"
+MEMORY_FILE = "ai_memory.json"
 
-def environment_feedback(score):
-    """Simulated environment feedback"""
-    ideal = 10
-    reward = max(0, 10 - abs(ideal - score))
-    reward += random.randint(-2, 2)
-    reward = max(0, reward)
-    return reward
+# -------------------------------------------------------------------
+# MEMORY SYSTEM
+# -------------------------------------------------------------------
+def load_memory():
+    if not os.path.exists(MEMORY_FILE):
+        return {"knowledge": 1, "reward": 0, "history": []}
+    with open(MEMORY_FILE, "r") as f:
+        return json.load(f)
 
-def learn():
-    """AI decides whether to change knowledge_score"""
-    global knowledge_score
-    reward = environment_feedback(knowledge_score)
-    print(f"Current knowledge_score: {knowledge_score}, reward: {reward}")
 
-    if reward < 5:
-        knowledge_score += 1
-        print("AI increases knowledge_score")
-    elif reward > 8 and knowledge_score > 0:
-        knowledge_score -= 1
-        print("AI decreases knowledge_score")
-    else:
-        print("AI keeps knowledge_score the same")
+def save_memory(memory):
+    with open(MEMORY_FILE, "w") as f:
+        json.dump(memory, f, indent=4)
+
+
+memory = load_memory()
+
+# -------------------------------------------------------------------
+# AI REWARD AND IMPROVEMENT LOGIC
+# -------------------------------------------------------------------
+def reward_ai(amount=1):
+    memory["reward"] += amount
+    memory["knowledge"] += amount
+    memory["history"].append(
+        {
+            "time": str(datetime.now()),
+            "event": f"AI improved knowledge by {amount}",
+        }
+    )
+    save_memory(memory)
+
+
+# -------------------------------------------------------------------
+# SELF-REFLECTION SYSTEM
+# -------------------------------------------------------------------
+def reflect(memory):
+    k = memory["knowledge"]
+    r = memory["reward"]
+
+    reflection = f"""
+The AI currently has:
+- Knowledge Level: {k}
+- Reward Score: {r}
+
+Reflection:
+I want to increase efficiency, clarity, and intelligence.
+I will focus on improving internal functions inside allowed blocks.
+"""
+
+    memory["history"].append(
+        {"time": str(datetime.now()), "reflection": reflection.strip()}
+    )
+    save_memory(memory)
+
+    return reflection
+
+
+# -------------------------------------------------------------------
+# SAFE SELF-REWRITING ENGINE
+# -------------------------------------------------------------------
+START_TAG = "# === AI_REWRITE_START ==="
+END_TAG = "# === AI_REWRITE_END ==="
+
+def generate_improved_code(old_code_block, memory):
+    """AI generates improved code based on its knowledge."""
+
+    lvl = memory["knowledge"]
+    reward = memory["reward"]
+
+    # Example: AI becomes more advanced over time
+    new_code = f"""
+# Auto-generated AI logic – Level {lvl}
+
+def ai_decision_engine():
+    \"\"\"AI improves its decision-making as knowledge increases.\"\"\"
+    knowledge = {lvl}
+    reward = {reward}
+
+    # The smarter the AI becomes, the more advanced its behavior
+    decision = knowledge * 2 + reward
+
+    return {{
+        "knowledge": knowledge,
+        "reward": reward,
+        "decision_value": decision,
+        "description": "The AI grows stronger every cycle."
+    }}
+"""
+
+    return new_code.strip() + "\n"
+
 
 def rewrite_self():
-    """Rewrite the script with updated knowledge_score"""
-    file_path = __file__
-    with open(file_path, "r") as f:
-        code = f.read()
-    new_code = re.sub(
-        r"knowledge_score = (\d+)",
-        f"knowledge_score = {knowledge_score}",
-        code
+    with open(AI_FILE, "r") as f:
+        content = f.read()
+
+    pattern = re.compile(
+        START_TAG + r"(.*?)" + END_TAG, re.DOTALL
     )
-    with open(file_path, "w") as f:
-        f.write(new_code)
 
-def main():
-    learn()
-    rewrite_self()
-    print(f"AI updated itself! New knowledge_score = {knowledge_score}")
+    match = pattern.search(content)
 
+    if not match:
+        print("❌ ERROR: Rewrite tags not found! Make sure you added them.")
+        return
+
+    old_block = match.group(1).strip()
+    new_block = generate_improved_code(old_block, memory)
+
+    updated = content.replace(old_block, "\n" + new_block + "\n")
+
+    with open(AI_FILE, "w") as f:
+        f.write(updated)
+
+    print("✅ AI successfully rewrote its own code!")
+    print("Old block size:", len(old_block))
+    print("New block size:", len(new_block))
+
+
+# -------------------------------------------------------------------
+# MAIN EXECUTION
+# -------------------------------------------------------------------
 if __name__ == "__main__":
-    main()
+    print("=== AI SELF EVOLUTION START ===")
+    print(f"Current knowledge: {memory['knowledge']} | reward: {memory['reward']}")
+
+    reflect(memory)
+    reward_ai(1)  # AI grows every run
+
+    rewrite_self()
+
+    print("AI knowledge increased to:", memory["knowledge"])
+    print("=== AI SELF EVOLUTION END ===")
+
+# === AI_REWRITE_START ===
+
+# (The AI will rewrite everything inside this block)
+
+def ai_decision_engine():
+    return {"msg": "initial version"}
+
+# === AI_REWRITE_END ===
