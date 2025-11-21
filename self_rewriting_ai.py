@@ -67,8 +67,25 @@ I will focus on improving internal functions inside allowed blocks.
 # -------------------------------------------------------------------
 # SAFE SELF-REWRITING ENGINE
 # -------------------------------------------------------------------
-START_TAG = "# === AI_REWRITE_START ==="
-END_TAG = "# === AI_REWRITE_END ==="
+START_TAG = "# === AI_REWRITE_START ===
+# Auto-generated AI logic – Level 2
+
+def ai_decision_engine():
+    """AI improves its decision-making as knowledge increases."""
+    knowledge = 2
+    reward = 1
+
+    # The smarter the AI becomes, the more advanced its behavior
+    decision = knowledge * 2 + reward
+
+    return {
+        "knowledge": knowledge,
+        "reward": reward,
+        "decision_value": decision,
+        "description": "The AI grows stronger every cycle."
+    }
+
+# === AI_REWRITE_END ==="
 
 def generate_improved_code(old_code_block, memory):
     """AI generates improved code based on its knowledge."""
