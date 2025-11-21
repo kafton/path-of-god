@@ -4,6 +4,11 @@
       "time": "2025-11-21T11:06:18.058275Z",
       "action": "propose_new_skill",
       "skill": "skill_1"
+    },
+    {
+      "time": "2025-11-21T13:14:00.368117Z",
+      "action": "propose_new_skill",
+      "skill": "skill_2"
     }
   ],
   "skills": [
@@ -11,6 +16,11 @@
       "name": "skill_1",
       "level": 1,
       "created": "2025-11-21T11:06:18.058272Z"
+    },
+    {
+      "name": "skill_2",
+      "level": 2,
+      "created": "2025-11-21T13:14:00.368113Z"
     }
   ]
 }
