@@ -9,6 +9,12 @@
       "time": "2025-11-21T13:14:00.368117Z",
       "action": "propose_new_skill",
       "skill": "skill_2"
+    },
+    {
+      "time": "2025-11-21T14:15:02.250213Z",
+      "action": "promote_best",
+      "candidate": "skill_3_0_585c45",
+      "score": 1.3
     }
   ],
   "skills": [
@@ -21,6 +27,11 @@
       "name": "skill_2",
       "level": 2,
       "created": "2025-11-21T13:14:00.368113Z"
+    },
+    {
+      "name": "skill_3_0_585c45",
+      "level": 3,
+      "promoted_at": "2025-11-21T14:15:02.250205Z"
     }
   ]
 }
