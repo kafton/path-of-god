@@ -1,0 +1,16 @@
+{
+  "runs": [
+    {
+      "time": "2025-11-21T11:06:18.058275Z",
+      "action": "propose_new_skill",
+      "skill": "skill_1"
+    }
+  ],
+  "skills": [
+    {
+      "name": "skill_1",
+      "level": 1,
+      "created": "2025-11-21T11:06:18.058272Z"
+    }
+  ]
+}
