@@ -1,0 +1,5 @@
+{
+  "type": "optimizer",
+  "goal": "maximize_numeric_scores",
+  "bias_strength": 1.0
+}
