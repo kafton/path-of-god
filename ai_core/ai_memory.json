@@ -15,6 +15,12 @@
       "action": "promote_best",
       "candidate": "skill_3_0_585c45",
       "score": 1.3
+    },
+    {
+      "time": "2025-11-21T22:25:55.652186Z",
+      "action": "promote_best",
+      "candidate": "skill_4_2_17f38c",
+      "score": 0.6
     }
   ],
   "skills": [
@@ -32,6 +38,11 @@
       "name": "skill_3_0_585c45",
       "level": 3,
       "promoted_at": "2025-11-21T14:15:02.250205Z"
+    },
+    {
+      "name": "skill_4_2_17f38c",
+      "level": 6,
+      "promoted_at": "2025-11-21T22:25:55.652178Z"
     }
   ]
 }
