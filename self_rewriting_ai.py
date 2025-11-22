@@ -73,7 +73,7 @@ def reflect(memory_obj):
 # SAFE SELF-REWRITING ENGINE
 # -------------------------------------------------------------------
 
-START_TAG = "# === AI_REWRITE_START ===
+START_TAG = "# === AI_REWRITE_START ==="
 # Auto-generated AI logic – Level 4
 def ai_decision_engine():
     """
