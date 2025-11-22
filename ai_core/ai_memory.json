@@ -21,6 +21,11 @@
       "action": "promote_best",
       "candidate": "skill_4_2_17f38c",
       "score": 0.6
+    },
+    {
+      "time": "2025-11-22T07:36:36.445007Z",
+      "action": "propose_new_skill",
+      "skill": "skill_5"
     }
   ],
   "skills": [
@@ -43,6 +48,11 @@
       "name": "skill_4_2_17f38c",
       "level": 6,
       "promoted_at": "2025-11-21T22:25:55.652178Z"
+    },
+    {
+      "name": "skill_5",
+      "level": 5,
+      "created": "2025-11-22T07:36:36.445003Z"
     }
   ]
 }
