@@ -65,8 +65,87 @@ def reflect(memory_obj):
 # -------------------------------------------------------------------
 # SAFE SELF-REWRITING ENGINE
 # -------------------------------------------------------------------
-START_TAG = "# === AI_REWRITE_START ==="
-END_TAG   = "# === AI_REWRITE_END ==="
+START_TAG = "# === AI_REWRITE_START ===
+
+# === BEGIN AUTO-GENERATED SEARCH + DECISION BLOCK ===
+
+# Free search: DuckDuckGo Instant Answer (no key), Wikipedia summary, safe_scrape
+import requests
+import re
+from urllib.parse import quote, urlparse
+
+def ddg_search(query, timeout=6):
+    try:
+        resp = requests.get("https://api.duckduckgo.com/",
+                            params={"q": query, "format": "json", "no_html": 1, "no_redirect": 1},
+                            timeout=timeout,
+                            headers={"User-Agent":"ai-sandbox/1.0"})
+        resp.raise_for_status()
+        data = resp.json()
+        return {
+            "query": query,
+            "heading": data.get("Heading",""),
+            "abstract": data.get("Abstract",""),
+            "answer": data.get("Answer","")
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+def wiki_search(query, timeout=6):
+    try:
+        safe_q = quote(query.replace(" ", "_"))
+        url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{safe_q}"
+        resp = requests.get(url, timeout=timeout, headers={"User-Agent":"ai-sandbox/1.0"})
+        resp.raise_for_status()
+        data = resp.json()
+        if "extract" in data:
+            return {"title": data.get("title",""), "extract": data.get("extract","")}
+        return {"error":"no summary"}
+    except Exception as e:
+        return {"error": str(e)}
+
+# Very small safe_scrape with a blocklist and truncation
+BLOCKLIST = {"google.com","www.google.com","facebook.com","twitter.com","instagram.com"}
+def safe_scrape(url, timeout=6, max_chars=1500):
+    try:
+        parsed = urlparse(url)
+        host = (parsed.hostname or "").lower()
+        if any(b in host for b in BLOCKLIST):
+            return {"error":"domain blocked"}
+        resp = requests.get(url, timeout=timeout, headers={"User-Agent":"ai-sandbox/1.0"})
+        resp.raise_for_status()
+        text = re.sub(r"<.*?>", " ", resp.text)
+        text = re.sub(r"\s+", " ", text)
+        return {"text": text[:max_chars]}
+    except Exception as e:
+        return {"error": str(e)}
+
+# AI decision engine (auto-generated)
+def ai_decision_engine():
+    knowledge = 5
+    reward = 4
+    # Example behavior: prefer Wikipedia summary if available, else DuckDuckGo answer
+    def query_and_pick(q):
+        w = wiki_search(q)
+        if isinstance(w, dict) and w.get("extract"):
+            return {"source":"wikipedia","summary": w.get("extract")}
+        dd = ddg_search(q)
+        if isinstance(dd, dict) and dd.get("abstract"):
+            return {"source":"duckduckgo","summary": dd.get("abstract")}
+        return {"source":"none","summary": ""}
+
+    # Decision value is deterministic for testing and evolution
+    decision_value = (knowledge * 10) + reward
+    return {
+        "knowledge": knowledge,
+        "reward": reward,
+        "decision_value": decision_value,
+        "query_and_pick": query_and_pick  # note: functions can't be serialized; used at runtime only
+    }
+
+# === END AUTO-GENERATED SEARCH + DECISION BLOCK ===
+
+# === AI_REWRITE_END ==="
 
 def generate_improved_code(old_code_block, memory_obj):
     """
