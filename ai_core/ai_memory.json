@@ -32,6 +32,10 @@
       "action": "promote_best",
       "candidate": "skill_6_2_4e8432",
       "score": 0.8
+    },
+    {
+      "time": "2025-11-25T22:11:39.549437Z",
+      "action": "noop"
     }
   ],
   "skills": [
