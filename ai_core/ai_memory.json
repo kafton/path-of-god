@@ -32,6 +32,12 @@
       "action": "promote_best",
       "candidate": "skill_6_2_4e8432",
       "score": 0.8
+    },
+    {
+      "time": "2025-12-07T22:10:45.231836Z",
+      "action": "mutate_skill",
+      "skill": "skill_2",
+      "new_level": 3
     }
   ],
   "skills": [
@@ -42,8 +48,9 @@
     },
     {
       "name": "skill_2",
-      "level": 2,
-      "created": "2025-11-21T13:14:00.368113Z"
+      "level": 3,
+      "created": "2025-11-21T13:14:00.368113Z",
+      "mutated_at": "2025-12-07T22:10:45.231832Z"
     },
     {
       "name": "skill_3_0_585c45",
